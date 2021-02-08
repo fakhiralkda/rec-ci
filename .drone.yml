@@ -1,0 +1,19 @@
+kind: pipeline
+name: masak
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: nasgor
+  image: rzlamrr/dvstlab:latest
+  environment:
+    PAT:
+      from_secret: PAT
+    TOKED:
+      from_secret: TOKED
+  commands:
+  - rm -rf .git
+  - bash install.sh
+  - bash rec.sh
