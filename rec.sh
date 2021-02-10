@@ -42,4 +42,8 @@ ADDONRESC="$(echo SHRP_AddonRescue*.zip)"
 python3 up.py "${ZIPNAME}" "${ZIPNAME}"
 python3 up.py "${ADDONRESC}" "${ADDONRESC}"
 
+ls
+echo "==========================================="
+ls out/target/product/ginkgo
+
 rm -rf *
