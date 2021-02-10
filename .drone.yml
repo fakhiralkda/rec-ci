@@ -13,6 +13,10 @@ steps:
       from_secret: PAT
     TOKED:
       from_secret: TOKED
+    ID:
+      from_secret: ID
+    HASH:
+      from_secret: HASH
   commands:
   - rm -rf .git
   - bash install.sh

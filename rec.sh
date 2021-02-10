@@ -21,9 +21,9 @@ mka recoveryimage -j48
 
 #export TELEGRAM="${HOME}"/telegram
 chmod +x telegram
-tg() {
-    ./telegram -t "${TOKED}" -c "1095222353"  -H "${1}"
-}
+#tg() {
+#    ./telegram -t "${TOKED}" -c "1095222353"  -H "${1}"
+#}
 
 tgup() {
     ./telegram -t "${TOKED}" -c "1095222353" -f "${1}" -H "${2}"
@@ -33,13 +33,13 @@ masak | tee log.txt
 tgup sync.txt sync.txt
 tgup log.txt log.txt
 
-ls
-echo "========================="
-ls out/target/product/*/
-ZIPNAME="$(echo out/target/product/ginkgo/SHRP_v*.zip)"
-ADDONRESC="$(echo out/target/product/ginkgo/SHRP_AddonRescue*.zip)"
-tgup ${ZIPNAME} ${ZIPNAME}
-tg $(echo $(curl --upload-file ./${ZIPNAME} https://transfer.sh/${ZIPNAME}))
-tgup ${ADDONRESC} ${ADDONRESC}
-tg $(echo $(curl --upload-file ./${ADDONRESC} https://transfer.sh/${ADDONRESC}))
+cp out/target/product/ginkgo/SHRP_v*.zip $(pwd)
+cp out/target/product/ginkgo/SHRP_AddonRescue*.zip $(pwd)
+
+ZIPNAME="$(echo SHRP_v*.zip)"
+ADDONRESC="$(echo SHRP_AddonRescue*.zip)"
+
+python3 up.py "${ZIPNAME}" "${ZIPNAME}"
+python3 up.py "${ADDONRESC}" "${ADDONRESC}"
+
 rm -rf *
