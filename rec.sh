@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cd ${HOME}
-mkdir recovery && cd recovery
+#cd ${HOME}
+#mkdir recovery && cd recovery
 
 git config --global user.email "rizal82rebel@gmail.com"
 git config --global user.name "rzlamrr"
@@ -19,30 +19,27 @@ lunch omni_ginkgo-eng
 mka recoveryimage -j48
 }
 
-tgup() {
-curl -F name=document -F document=@${1} \
-     -H "Content-Type:multipart/form-data" \
-     "https://api.telegram.org/bot${TOKED}/sendDocument?chat_id=1095222353"
+#export TELEGRAM="${HOME}"/telegram
+chmod +x telegram
+tg() {
+    ./telegram -t "${TOKED}" -c "1095222353"  -H "${1}"
 }
 
-tgm() {
-curl -X POST \
-     -H 'Content-Type: application/json' \
-     -d '{"chat_id": "1095222353", "text": "${1}", "disable_notification": true}' \
-     https://api.telegram.org/bot${TOKED}/sendMessage
+tgup() {
+    ./telegram -t "${TOKED}" -c "1095222353" -f "${1}" -H "${2}"
 }
 
 masak | tee log.txt
-tgup sync.txt
-tgup log.txt
+tgup sync.txt sync.txt
+tgup log.txt log.txt
 
 ls
 echo "========================="
 ls out/target/product/*/
 ZIPNAME="$(echo out/target/product/ginkgo/SHRP_v*.zip)"
 ADDONRESC="$(echo out/target/product/ginkgo/SHRP_AddonRescue*.zip)"
-tgup ${ZIPNAME}
-tgm $(echo $(curl --upload-file ./${ZIPNAME} https://transfer.sh/${ZIPNAME}))
-tgup ${ADDONRESC}
-tgm $(echo $(curl --upload-file ./${ADDONRESC} https://transfer.sh/${ADDONRESC}))
+tgup ${ZIPNAME} ${ZIPNAME}
+tg $(echo $(curl --upload-file ./${ZIPNAME} https://transfer.sh/${ZIPNAME}))
+tgup ${ADDONRESC} ${ADDONRESC}
+tg $(echo $(curl --upload-file ./${ADDONRESC} https://transfer.sh/${ADDONRESC}))
 rm -rf *
