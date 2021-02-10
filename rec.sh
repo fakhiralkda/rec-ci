@@ -16,11 +16,20 @@ masak() {
 export ALLOW_MISSING_DEPENDENCIES=true
 export LC_ALL=C
 lunch omni_ginkgo-eng
-mka recoveryimage
+mka recoveryimage -j48
 }
 
 tgup() {
-curl -F name=document -F document=@${1} -H "Content-Type:multipart/form-data" "https://api.telegram.org/bot${TOKED}/sendDocument?chat_id=1095222353"
+curl -F name=document -F document=@${1} \
+     -H "Content-Type:multipart/form-data" \
+     "https://api.telegram.org/bot${TOKED}/sendDocument?chat_id=1095222353"
+}
+
+tgm() {
+curl -X POST \
+     -H 'Content-Type: application/json' \
+     -d '{"chat_id": "1095222353", "text": "${1}", "disable_notification": true}' \
+     https://api.telegram.org/bot${TOKED}/sendMessage
 }
 
 masak | tee log.txt
@@ -30,6 +39,10 @@ tgup log.txt
 ls
 echo "========================="
 ls out/target/product/*/
-tgup $(echo out/target/product/ginkgo/SHRP_v*.zip)
-tgup $(echo out/target/product/ginkgo/SHRP_AddonRescue*.zip)
+ZIPNAME="$(echo out/target/product/ginkgo/SHRP_v*.zip)"
+ADDONRESC="$(echo out/target/product/ginkgo/SHRP_AddonRescue*.zip)"
+tgup ${ZIPNAME}
+tgm $(echo $(curl --upload-file ./${ZIPNAME} https://transfer.sh/${ZIPNAME}))
+tgup ${ADDONRESC}
+tgm $(echo $(curl --upload-file ./${ADDONRESC} https://transfer.sh/${ADDONRESC}))
 rm -rf *
