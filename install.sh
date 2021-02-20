@@ -5,4 +5,4 @@ chmod a+x repo
 install repo /usr/local/bin
 
 apt install -qqy python3-pip python3
-pip3 install -q telethon
+pip3 install -q pyrogram tgcrypto
