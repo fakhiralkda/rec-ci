@@ -3,10 +3,10 @@
 #cd ${HOME}
 #mkdir recovery && cd recovery
 
-git config --global user.email "rizal82rebel@gmail.com"
+git config --global user.email "rzlamrr.dvst@protonmail.com"
 git config --global user.name "rzlamrr"
 
-repo init -u git://github.com/SHRP/platform_manifest_twrp_omni.git -b v3_9.0
+repo init -u https://github.com/fakhiralkda/ofox-manifest -b fox_9.0
 repo sync | tee sync.txt
 
 git clone ${PAT} device/xiaomi/ginkgo
@@ -33,14 +33,14 @@ masak | tee log.txt
 tgup sync.txt sync.txt
 tgup log.txt log.txt
 
-cp out/target/product/ginkgo/SHRP_v*.zip $(pwd)
-cp out/target/product/ginkgo/SHRP_AddonRescue*.zip $(pwd)
+cp out/target/product/ginkgo/OrangeFox-*.zip $(pwd)
+#cp out/target/product/ginkgo/SHRP_AddonRescue*.zip $(pwd)
 
-ZIPNAME="$(echo SHRP_v*.zip)"
-ADDONRESC="$(echo SHRP_AddonRescue*.zip)"
+ZIPNAME="$(echo OrangeFox-*.zip)"
+#ADDONRESC="$(echo SHRP_AddonRescue*.zip)"
 
 python3 up.py "${ZIPNAME}" "${ZIPNAME}"
-python3 up.py "${ADDONRESC}" "${ADDONRESC}"
+#python3 up.py "${ADDONRESC}" "${ADDONRESC}"
 
 ls
 echo "==========================================="
